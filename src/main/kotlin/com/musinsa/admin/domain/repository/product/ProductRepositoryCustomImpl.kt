@@ -1,5 +1,6 @@
 package com.musinsa.admin.domain.repository.product
 
+import com.musinsa.admin.application.product.dto.BrandProductSumDto
 import com.musinsa.admin.application.product.dto.CategoryProductDto
 import com.musinsa.admin.domain.entity.brand.QBrandEntity
 import com.musinsa.admin.domain.entity.category.QCategoryEntity
@@ -30,6 +31,39 @@ class ProductRepositoryCustomImpl : ProductRepositoryCustom,
             .innerJoin(brand).on(product.brandId.eq(brand.id))
             .where(product.categoryId.`in`(categoryIds))
             .orderBy(product.price.asc())
+            .fetch()
+    }
+
+    override fun findLowestTotalPriceBrand(): BrandProductSumDto? {
+        return from(product)
+            .select(
+                Projections.constructor(
+                    BrandProductSumDto::class.java,
+                    brand.id,
+                    brand.name,
+                    product.price.sum()
+                )
+            )
+            .innerJoin(brand).on(product.brandId.eq(brand.id))
+            .groupBy(brand.id)
+            .orderBy(product.price.sum().asc())
+            .fetchFirst()
+    }
+
+    override fun findProductsByBrandId(brandId: Long): List<CategoryProductDto> {
+        return from(product)
+            .select(
+                Projections.constructor(
+                    CategoryProductDto::class.java,
+                    category.id,
+                    category.name,
+                    brand.name,
+                    product.price
+                )
+            )
+            .innerJoin(category).on(product.categoryId.eq(category.id))
+            .innerJoin(brand).on(product.brandId.eq(brand.id))
+            .where(brand.id.eq(brandId))
             .fetch()
     }
 

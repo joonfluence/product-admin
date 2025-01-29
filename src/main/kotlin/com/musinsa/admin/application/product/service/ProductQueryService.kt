@@ -1,7 +1,10 @@
 package com.musinsa.admin.application.product.service
 
+import com.musinsa.admin.application.product.dto.BrandCategorySumDto
 import com.musinsa.admin.application.product.dto.CategoryProductDto
-import com.musinsa.admin.application.product.dto.CategoryProductMapDto
+import com.musinsa.admin.application.product.dto.CategoryProductPriceDto
+import com.musinsa.admin.application.product.dto.CategoryProductsDto
+import com.musinsa.admin.application.product.dto.LowestBrandPriceDto
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository
 import org.springframework.stereotype.Service
@@ -14,7 +17,7 @@ class ProductQueryService(
     private val productRepository: ProductRepository,
     private val categoryRepository: CategoryRepository,
 ) {
-    fun getLowestPriceByCategory(): CategoryProductMapDto {
+    fun getLowestPriceByCategory(): CategoryProductsDto {
         val categories = categoryRepository.findAll()
         val categoryIds = categories.map { it.id }
 
@@ -30,14 +33,18 @@ class ProductQueryService(
         }
 
         contents.sortBy { it.id }
-        return CategoryProductMapDto.of(totalAmount, contents)
+        return CategoryProductsDto.of(totalAmount, contents)
     }
 
-    fun getLowestPriceBrand() {
-        val categories = categoryRepository.findAll()
-        val categoryIds = categories.map { it.id }
+    fun getLowestPriceBrand(): LowestBrandPriceDto {
+        val lowestBrand = productRepository.findLowestTotalPriceBrand()
+            ?: throw IllegalArgumentException("No brand found")
 
-        val products = productRepository.findByCategoryIdsOrderByPriceAsc(categoryIds)
-        val map = products.groupBy { it.name }
+        val products = productRepository.findProductsByBrandId(lowestBrand.id)
+        val priceDtos = products.map { CategoryProductPriceDto.from(it) }
+        val totalAmount = products.map { it.price }.reduce { acc, price -> acc.add(price) }
+        val brandCategorySum = BrandCategorySumDto.of(lowestBrand.name, priceDtos, totalAmount)
+
+        return LowestBrandPriceDto.from(brandCategorySum)
     }
 }
