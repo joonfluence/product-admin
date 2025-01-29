@@ -39,6 +39,5 @@ class ProductQueryService(
 
         val products = productRepository.findByCategoryIdsOrderByPriceAsc(categoryIds)
         val map = products.groupBy { it.name }
-
     }
 }
