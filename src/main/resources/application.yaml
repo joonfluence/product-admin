@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local
   application:
     name: admin
   datasource:
@@ -22,11 +24,6 @@ spring:
       web:
         exposure:
           include: "*"
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:sql/schema.sql
-      data-locations: classpath:sql/data.sql
 
 logging:
   level:

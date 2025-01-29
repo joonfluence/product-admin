@@ -1,10 +1,11 @@
 package com.musinsa.admin.application.product.service
 
 import com.musinsa.admin.application.product.dto.BrandCategorySumDto
+import com.musinsa.admin.application.product.dto.BrandMinMaxPriceDto
+import com.musinsa.admin.application.product.dto.CategoryBrandDto
 import com.musinsa.admin.application.product.dto.CategoryProductDto
 import com.musinsa.admin.application.product.dto.CategoryProductPriceDto
 import com.musinsa.admin.application.product.dto.CategoryProductsDto
-import com.musinsa.admin.application.product.dto.LowestBrandPriceDto
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository
 import org.springframework.stereotype.Service
@@ -36,15 +37,28 @@ class ProductQueryService(
         return CategoryProductsDto.of(totalAmount, contents)
     }
 
-    fun getLowestPriceBrand(): LowestBrandPriceDto {
+    fun getLowestPriceBrand(): BrandCategorySumDto {
         val lowestBrand = productRepository.findLowestTotalPriceBrand()
             ?: throw IllegalArgumentException("No brand found")
 
         val products = productRepository.findProductsByBrandId(lowestBrand.id)
         val priceDtos = products.map { CategoryProductPriceDto.from(it) }
         val totalAmount = products.map { it.price }.reduce { acc, price -> acc.add(price) }
-        val brandCategorySum = BrandCategorySumDto.of(lowestBrand.name, priceDtos, totalAmount)
+        return BrandCategorySumDto.of(lowestBrand.name, priceDtos, totalAmount)
+    }
 
-        return LowestBrandPriceDto.from(brandCategorySum)
+    fun getMinMaxPriceByCategory(categoryName: String): BrandMinMaxPriceDto {
+        val category = categoryRepository.findByName(categoryName)
+            ?: throw IllegalArgumentException("No category found")
+
+        val products = productRepository.findByCategoryIdsOrderByPriceAsc(listOf(category.id))
+        val minPriceProduct = products.first()
+        val maxPriceProduct = products.last()
+
+        return BrandMinMaxPriceDto.of(
+            categoryName,
+            CategoryBrandDto(minPriceProduct.brandName, minPriceProduct.price),
+            CategoryBrandDto(maxPriceProduct.brandName, maxPriceProduct.price)
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.musinsa.admin.application.product.controller
 
-import com.musinsa.admin.application.product.dto.LowestBrandPriceDto
+import com.musinsa.admin.application.product.response.BrandMinMaxPriceResponse
+import com.musinsa.admin.application.product.response.BrandMinPriceResponse
 import com.musinsa.admin.application.product.response.CategoryProductsResponse
 import com.musinsa.admin.application.product.service.ProductQueryService
 import org.springframework.http.ResponseEntity
@@ -20,14 +21,16 @@ class ProductQueryController(
     }
 
     @GetMapping("/lowest-price-brand")
-    fun getLowestPriceBrand(): ResponseEntity<LowestBrandPriceDto> {
+    fun getLowestPriceBrand(): ResponseEntity<BrandMinPriceResponse> {
         val lowestPriceBrand = productQueryService.getLowestPriceBrand()
-        return ResponseEntity.ok(lowestPriceBrand)
+        return ResponseEntity.ok(
+            BrandMinPriceResponse.from(lowestPriceBrand)
+        )
     }
 
-//    @GetMapping("/price-range")
-//    fun getPriceRange(@RequestParam category: String): ResponseEntity<Void> {
-//        productQueryService.getPriceRange(category)
-//        return ResponseEntity.ok().build()
-//    }
+    @GetMapping("/price-range")
+    fun getMinMaxPriceByCategory(categoryName: String): ResponseEntity<BrandMinMaxPriceResponse> {
+        val priceRange = productQueryService.getMinMaxPriceByCategory(categoryName)
+        return ResponseEntity.ok(BrandMinMaxPriceResponse.from(priceRange))
+    }
 }
