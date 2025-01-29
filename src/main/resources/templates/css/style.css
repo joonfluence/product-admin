@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+.navbar {
+    border-bottom: 2px solid #dee2e6;
+}
+
+footer {
+    background-color: #f8f9fa;
+    margin-top: 20px;
+}
