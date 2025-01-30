@@ -116,6 +116,23 @@ class ProductCommandServiceTest(
   }
 
   @Test
+  fun `상품이 존재하지 않으면 상품이 수정될 수 없다`() {
+    // given
+    val categoryEntity = createCategory("상의")
+    val brandEntity = createBrand("A")
+
+    val productDto = ProductDto(
+      name = "A 흰색 반팔티",
+      price = 10000.toBigDecimal(),
+      categoryId = categoryEntity.id,
+      brandId = brandEntity.id
+    )
+
+    // when & then
+    assertThrows<BadRequestException>(ErrorCodes.PRODUCT_NOT_FOUND.message) { productService.updateProduct(productDto, 9999) }
+  }
+
+  @Test
   fun `정상 요청이라면 상품이 삭제되어야 한다`() {
     // given
     val categoryEntity = createCategory("상의")
