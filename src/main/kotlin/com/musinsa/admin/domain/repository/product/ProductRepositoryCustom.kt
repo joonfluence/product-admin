@@ -11,4 +11,5 @@ interface ProductRepositoryCustom {
     fun findProductsByBrandId(brandId: Long): List<CategoryProductDto>
     fun findProductByBrandIdAndCategoryIdAndName(brandId: Long, categoryId: Long, name: String): List<ProductEntity>
     fun findProductsWithCategoryAndBrand(): List<ProductWithCategoryAndBrandDto>
+    fun findProductByIdWithCategoryAndBrand(productId: Long): ProductWithCategoryAndBrandDto?
 }

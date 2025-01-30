@@ -105,4 +105,31 @@ class ProductRepositoryCustomImpl : ProductRepositoryCustom,
             .innerJoin(brand).on(product.brandId.eq(brand.id))
             .fetch()
     }
+
+    override fun findProductByIdWithCategoryAndBrand(
+        productId: Long
+    ): ProductWithCategoryAndBrandDto? {
+        return from(product)
+            .select(
+                Projections.constructor(
+                    ProductWithCategoryAndBrandDto::class.java,
+                    product.id,
+                    product.price,
+                    Projections.constructor(
+                        CategoryDto::class.java,
+                        category.id,
+                        category.name,
+                    ),
+                    Projections.constructor(
+                        BrandDto::class.java,
+                        brand.id,
+                        brand.name,
+                    )
+                )
+            )
+            .innerJoin(category).on(product.categoryId.eq(category.id))
+            .innerJoin(brand).on(product.brandId.eq(brand.id))
+            .where(product.id.eq(productId))
+            .fetchOne()
+    }
 }
