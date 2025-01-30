@@ -6,6 +6,7 @@ import com.musinsa.admin.application.product.dto.CategoryBrandDto
 import com.musinsa.admin.application.product.dto.CategoryProductDto
 import com.musinsa.admin.application.product.dto.CategoryProductPriceDto
 import com.musinsa.admin.application.product.dto.CategoryProductsDto
+import com.musinsa.admin.application.product.dto.ProductWithCategoryAndBrandDto
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository
 import com.musinsa.admin.global.exception.BadRequestException
@@ -62,5 +63,9 @@ class ProductQueryService(
             CategoryBrandDto(minPriceProduct.brandName, minPriceProduct.price),
             CategoryBrandDto(maxPriceProduct.brandName, maxPriceProduct.price)
         )
+    }
+
+    fun getProductsWithCategoryAndBrand(): List<ProductWithCategoryAndBrandDto> {
+        return productRepository.findProductsWithCategoryAndBrand()
     }
 }
