@@ -8,6 +8,8 @@ import com.musinsa.admin.application.product.dto.CategoryProductPriceDto
 import com.musinsa.admin.application.product.dto.CategoryProductsDto
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository
+import com.musinsa.admin.global.exception.BadRequestException
+import com.musinsa.admin.global.exception.ErrorCodes
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -39,7 +41,7 @@ class ProductQueryService(
 
     fun getLowestPriceBrand(): BrandCategorySumDto {
         val lowestBrand = productRepository.findLowestTotalPriceBrand()
-            ?: throw IllegalArgumentException("No brand found")
+            ?: throw BadRequestException(ErrorCodes.BRAND_NOT_FOUND)
 
         val products = productRepository.findProductsByBrandId(lowestBrand.id)
         val priceDtos = products.map { CategoryProductPriceDto.from(it) }
@@ -49,7 +51,7 @@ class ProductQueryService(
 
     fun getMinMaxPriceByCategory(categoryName: String): BrandMinMaxPriceDto {
         val category = categoryRepository.findByName(categoryName)
-            ?: throw IllegalArgumentException("No category found")
+            ?: throw BadRequestException(ErrorCodes.CATEGORY_NOT_FOUND)
 
         val products = productRepository.findByCategoryIdsOrderByPriceAsc(listOf(category.id))
         val minPriceProduct = products.first()

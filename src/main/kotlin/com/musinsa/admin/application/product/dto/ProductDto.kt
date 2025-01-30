@@ -4,7 +4,7 @@ import com.musinsa.admin.domain.entity.product.ProductEntity
 import java.math.BigDecimal
 
 data class ProductDto(
-    val name: String,
+    val name: String?,
     val price: BigDecimal,
     val categoryId: Long,
     val brandId: Long

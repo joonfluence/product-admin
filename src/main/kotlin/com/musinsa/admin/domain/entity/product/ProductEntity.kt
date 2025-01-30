@@ -1,5 +1,6 @@
 package com.musinsa.admin.domain.entity.product
 
+import com.musinsa.admin.domain.entity.base.BaseEntity
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -13,8 +14,17 @@ class ProductEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val name: String,
-    val brandId: Long,
-    val categoryId: Long,
-    val price: BigDecimal
-)
+    var name: String?,
+    var brandId: Long,
+    var categoryId: Long,
+    var price: BigDecimal,
+    var createdBy: String? = null,
+    var updatedBy: String? = null,
+) : BaseEntity() {
+    fun update(entity: ProductEntity) {
+        this.name = entity.name
+        this.brandId = entity.brandId
+        this.categoryId = entity.categoryId
+        this.price = entity.price
+    }
+}
