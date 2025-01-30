@@ -70,7 +70,7 @@ class ProductQueryService(
     }
 
     fun getProductWithCategoryAndBrandById(productId: Long): ProductWithCategoryAndBrandDto {
-        return productRepository.findProductByIdWithCategoryAndBrand(productId) ?:
-            throw BadRequestException(ErrorCodes.PRODUCT_NOT_FOUND)
+        return productRepository.findProductByIdWithCategoryAndBrand(productId)
+            ?: throw BadRequestException(ErrorCodes.PRODUCT_NOT_FOUND)
     }
 }
