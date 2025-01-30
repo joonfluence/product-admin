@@ -18,5 +18,14 @@ data class ProductDto(
                 brandId = dto.brandId,
             )
         }
+
+        fun from(entity: ProductEntity): ProductDto {
+            return ProductDto(
+                name = entity.name,
+                price = entity.price,
+                categoryId = entity.categoryId,
+                brandId = entity.brandId,
+            )
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.musinsa.admin.application.product.service
 
 import com.musinsa.admin.application.product.dto.ProductDto
+import com.musinsa.admin.domain.entity.product.ProductEntity
 import com.musinsa.admin.domain.repository.brand.BrandRepository
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository
@@ -17,20 +18,20 @@ class ProductCommandService(
     private val categoryRepository: CategoryRepository,
 ) {
 
-    fun createProduct(dto: ProductDto) {
+    fun createProduct(dto: ProductDto): ProductDto {
         validateBrandExist(dto.brandId)
         validateCategoryExist(dto.categoryId)
         val productEntity = ProductDto.toEntity(dto)
-        productRepository.save(productEntity)
+        return ProductDto.from(productRepository.save(productEntity))
     }
 
-    fun updateProduct(dto: ProductDto, productId: Long) {
+    fun updateProduct(dto: ProductDto, productId: Long): ProductDto {
         val productEntity = productRepository.findById(productId)
             .orElseThrow { BadRequestException(ErrorCodes.PRODUCT_NOT_FOUND) }
         validateBrandExist(dto.brandId)
         validateCategoryExist(dto.categoryId)
         productEntity.update(ProductDto.toEntity(dto))
-        productRepository.save(productEntity)
+        return ProductDto.from(productRepository.save(productEntity))
     }
 
     fun deleteProduct(productId: Long) {

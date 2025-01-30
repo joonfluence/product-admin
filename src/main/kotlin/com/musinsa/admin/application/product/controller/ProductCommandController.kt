@@ -1,5 +1,6 @@
 package com.musinsa.admin.application.product.controller
 
+import com.musinsa.admin.application.product.dto.ProductDto
 import com.musinsa.admin.application.product.request.ProductCreateRequest
 import com.musinsa.admin.application.product.request.ProductUpdateRequest
 import com.musinsa.admin.application.product.service.ProductCommandService
@@ -21,20 +22,20 @@ class ProductCommandController(
     @PostMapping
     fun createProduct(
         @Valid @RequestBody request: ProductCreateRequest
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<ProductDto> {
         val productDto = ProductCreateRequest.toDto(request)
-        productCommandService.createProduct(productDto)
-        return ResponseEntity.ok().build()
+        val dto = productCommandService.createProduct(productDto)
+        return ResponseEntity.ok(dto)
     }
 
     @PatchMapping("/{productId}")
     fun updateProduct(
         @PathVariable productId: Long,
         @Valid @RequestBody request: ProductUpdateRequest,
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<ProductDto> {
         val productDto = ProductUpdateRequest.toDto(request)
-        productCommandService.updateProduct(productDto, productId)
-        return ResponseEntity.ok().build()
+        val dto = productCommandService.updateProduct(productDto, productId)
+        return ResponseEntity.ok(dto)
     }
 
     @DeleteMapping("/{productId}")

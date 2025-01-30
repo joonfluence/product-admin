@@ -1,5 +1,6 @@
 package com.musinsa.admin.application.product.service
 
+import com.musinsa.admin.BaseJpaTest
 import com.musinsa.admin.domain.entity.brand.BrandEntity
 import com.musinsa.admin.domain.entity.category.CategoryEntity
 import com.musinsa.admin.domain.entity.product.ProductEntity
@@ -13,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
-@ActiveProfiles("test")
-@DataJpaTest
 class ProductQueryServiceTest(
     @Autowired
     private val productRepository: ProductRepository,
@@ -22,7 +21,7 @@ class ProductQueryServiceTest(
     private val brandRepository: BrandRepository,
     @Autowired
     private val categoryRepository: CategoryRepository,
-) {
+) : BaseJpaTest() {
 
     private val productService = ProductQueryService(productRepository, categoryRepository)
 
