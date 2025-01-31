@@ -73,8 +73,6 @@
 
 ## API Spec
 
----
-
 ### 1. 카테고리 별 최저가 조회
 
 - **URL:** `GET /v1/products/lowest-price-by-category`
