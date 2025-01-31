@@ -73,171 +73,176 @@
 
 ## API Spec
 
-1. 카테고리 별 최저가 조회
+---
 
-- URL: `GET /v1/products/lowest-price-by-category`
-- Request: 없음
-  - Response:
-      - `200 OK`
-      - Content-Type: `application/json`
-        - Body
-          - totalAmount (Double) : 카테고리 별 최저가 상품들의 가격을 합산한 값
-          - categories (List<Object>) : 카테고리 별 최저가 상품 목록
-            - id (Long) : 카테고리 ID
-            - name (String) : 카테고리 이름
-            - brandName (String) : 브랜드 이름
-            - price (Double) : 상품 가격
-        - Example
-            ```json
+### 1. 카테고리 별 최저가 조회
+
+- **URL:** `GET /v1/products/lowest-price-by-category`
+- **Request:** 없음
+- **Response:**
+    - **`200 OK`**
+    - **Content-Type:** `application/json`
+    - **Body:**
+        - `totalAmount` (Double) : 카테고리 별 최저가 상품들의 가격을 합산한 값
+        - `categories` (List<Object>) : 카테고리 별 최저가 상품 목록
+            - `id` (Long) : 카테고리 ID
+            - `name` (String) : 카테고리 이름
+            - `brandName` (String) : 브랜드 이름
+            - `price` (Double) : 상품 가격
+
+```json
+{
+  "totalAmount": 34100.00,
+  "categories": [
+    {
+      "id": 1,
+      "name": "상의",
+      "brandName": "C",
+      "price": 10000.00
+    },
+    {
+      "id": 2,
+      "name": "아우터",
+      "brandName": "E",
+      "price": 5000.00
+    },
+    {
+      "id": 3,
+      "name": "바지",
+      "brandName": "D",
+      "price": 3000.00
+    },
+    {
+      "id": 4,
+      "name": "스니커즈",
+      "brandName": "A",
+      "price": 9000.00
+    },
+    {
+      "id": 5,
+      "name": "가방",
+      "brandName": "A",
+      "price": 2000.00
+    },
+    {
+      "id": 6,
+      "name": "모자",
+      "brandName": "D",
+      "price": 1500.00
+    },
+    {
+      "id": 7,
+      "name": "양말",
+      "brandName": "I",
+      "price": 1700.00
+    },
+    {
+      "id": 8,
+      "name": "액세서리",
+      "brandName": "F",
+      "price": 1900.00
+    }
+  ]
+}
+```
+
+### 2. 최저 가격 브랜드 조회
+
+- **URL**: `GET /v1/products/lowest-price-brand`
+- **Request**: 없음
+- **Response**
+  - **Status Code**: `200 OK`
+  - **Content-Type**: `application/json`
+  - **Body**:
+      - `minPrice` (Object) : 최저 가격 브랜드 정보
+          - `brandName` (String) : 최저 가격 브랜드 이름
+          - `categories` (List<Object>) : 최저 가격 브랜드의 상품 목록
+              - `id` (Long) : 카테고리 ID
+              - `name` (String) : 카테고리 이름
+              - `price` (Double) : 상품 가격
+          - `totalAmount` (Double) : 최저 가격 브랜드의 상품 가격 합산 값
+
+```json
+{
+    "minPrice": {
+        "brandName": "D",
+        "categories": [
             {
-                  "totalAmount": 34100.00,
-                  "categories": [
-                      {
-                          "id": 1,
-                          "name": "상의",
-                          "brandName": "C",
-                          "price": 10000.00
-                      },
-                      {
-                          "id": 2,
-                          "name": "아우터",
-                          "brandName": "E",
-                          "price": 5000.00
-                      },
-                      {
-                          "id": 3,
-                          "name": "바지",
-                          "brandName": "D",
-                          "price": 3000.00
-                      },
-                      {
-                          "id": 4,
-                          "name": "스니커즈",
-                          "brandName": "A",
-                          "price": 9000.00
-                      },
-                      {
-                          "id": 5,
-                          "name": "가방",
-                          "brandName": "A",
-                          "price": 2000.00
-                      },
-                      {
-                          "id": 6,
-                          "name": "모자",
-                          "brandName": "D",
-                          "price": 1500.00
-                      },
-                      {
-                          "id": 7,
-                          "name": "양말",
-                          "brandName": "I",
-                          "price": 1700.00
-                      },
-                      {
-                          "id": 8,
-                          "name": "액세서리",
-                          "brandName": "F",
-                          "price": 1900.00
-                      }
-                  ]
-            }
-           ```
-
-2. 최저 가격 브랜드 조회
-
-- URL: `GET /v1/products/lowest-price-brand`
-- Request: 없음
-  - Response:
-      - `200 OK`
-      - Content-Type: `application/json`
-        - Body
-          - minPrice (Object) : 최저 가격 브랜드 정보
-            - brandName (String) : 최저 가격 브랜드 이름
-            - categories (List<Object>) : 최저 가격 브랜드의 상품 목록
-              - categories.id (Long) : 카테고리 ID
-              - categories.name (String) : 카테고리 이름
-            - totalAmount (Double) : 최저 가격 브랜드의 상품 가격 합산 값
-        - Example
-            ```json
+                "id": 1,
+                "name": "상의",
+                "price": 10100.00
+            },
             {
-                "minPrice": {
-                "brandName": "D",
-                "categories": [
-                    {
-                        "id": 1,
-                        "name": "상의",
-                        "price": 10100.00
-                    },
-                    {
-                        "id": 2,
-                        "name": "아우터",
-                        "price": 5100.00
-                    },
-                    {
-                        "id": 3,
-                        "name": "바지",
-                        "price": 3000.00
-                    },
-                    {
-                        "id": 4,
-                        "name": "스니커즈",
-                        "price": 9500.00
-                    },
-                    {
-                        "id": 5,
-                        "name": "가방",
-                        "price": 2500.00
-                    },
-                    {
-                        "id": 6,
-                        "name": "모자",
-                        "price": 1500.00
-                    },
-                    {
-                        "id": 7,
-                        "name": "양말",
-                        "price": 2400.00
-                    },
-                    {
-                        "id": 8,
-                        "name": "액세서리",
-                        "price": 2000.00
-                    }
-                ],
-              "totalAmount": 36100.00
-              }
+                "id": 2,
+                "name": "아우터",
+                "price": 5100.00
+            },
+            {
+                "id": 3,
+                "name": "바지",
+                "price": 3000.00
+            },
+            {
+                "id": 4,
+                "name": "스니커즈",
+                "price": 9500.00
+            },
+            {
+                "id": 5,
+                "name": "가방",
+                "price": 2500.00
+            },
+            {
+                "id": 6,
+                "name": "모자",
+                "price": 1500.00
+            },
+            {
+                "id": 7,
+                "name": "양말",
+                "price": 2400.00
+            },
+            {
+                "id": 8,
+                "name": "액세서리",
+                "price": 2000.00
             }
-            ```
-          
-3. 카테고리 별 가격 조회
+        ],
+        "totalAmount": 36100.00
+    }
+}
+```
 
-- URL: `GET /v1/products/price-range?categoryName=상의`
-- Request:
-    - Query Parameter:
-        - `categoryName`: 카테고리 이름 (상의, 하의, 신발)
-          - Response:
-              - `200 OK`
-              - Content-Type: `application/json`
-                - Body
-                  - categoryName (String) : 카테고리 이름
-                  - minPrice (Object) : 최저 가격 상품 정보
-                    - brandName (String) : 최저 가격 브랜드 이름
-                    - price (Double) : 최저 가격 상품 가격
-                  - maxPrice (Object) : 최고 가격 상품 정보
-                    - brandName (String) : 최고 가격 브랜드 이름
-                    - price (Double) : 최고 가격 상품 가격
-                - Example
-                    ```json
-                    {
-                          "categoryName": "상의",
-                          "minPrice": {
-                              "brandName": "C",
-                              "price": 10000.00
-                          },
-                          "maxPrice": {
-                              "brandName": "I",
-                              "price": 11400.00
-                          }
-                  }
-                   ```
+### 3. 카테고리 별 가격 조회
+
+- **URL**: `GET /v1/products/price-range?categoryName=상의`
+- **Request**: 
+  - **Query Parameter**:
+      - `categoryName` (String) : 카테고리 이름  
+        _(예: 상의, 아우터, 바지, 스니커즈, 가방, 모자, 양말, 액세서리)_
+
+- **Response**:
+  - **Status Code**: `200 OK`
+  - **Content-Type**: `application/json`
+  - **Response Body**:
+      - `categoryName` (String) : 카테고리 이름
+      - `minPrice` (Object) : 최저 가격 상품 정보
+          - `brandName` (String) : 최저 가격 브랜드 이름
+          - `price` (Double) : 최저 가격 상품 가격
+      - `maxPrice` (Object) : 최고 가격 상품 정보
+          - `brandName` (String) : 최고 가격 브랜드 이름
+          - `price` (Double) : 최고 가격 상품 가격
+
+```json
+{
+    "categoryName": "상의",
+    "minPrice": {
+        "brandName": "C",
+        "price": 10000.00
+    },
+    "maxPrice": {
+        "brandName": "I",
+        "price": 11400.00
+    }
+}
+```
