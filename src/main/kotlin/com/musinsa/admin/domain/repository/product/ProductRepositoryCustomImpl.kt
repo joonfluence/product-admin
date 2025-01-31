@@ -37,7 +37,7 @@ class ProductRepositoryCustomImpl : ProductRepositoryCustom,
             .fetch()
     }
 
-    override fun findLowestTotalPriceBrand(): BrandProductSumDto? {
+    override fun findTotalPriceBrands(): List<BrandProductSumDto> {
         return from(product)
             .select(
                 Projections.constructor(
@@ -49,8 +49,7 @@ class ProductRepositoryCustomImpl : ProductRepositoryCustom,
             )
             .innerJoin(brand).on(product.brandId.eq(brand.id))
             .groupBy(brand.id)
-            .orderBy(product.price.sum().asc())
-            .fetchFirst()
+            .fetch()
     }
 
     override fun findProductsByBrandId(brandId: Long): List<CategoryProductDto> {

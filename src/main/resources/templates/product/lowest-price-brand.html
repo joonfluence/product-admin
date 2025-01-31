@@ -17,26 +17,35 @@
 
     <!-- Main Content -->
     <main class="container-fluid p-4">
-        <h2>단일 브랜드 총액 최저가</h2>
-        <p>
-            <h3>브랜드명</h3>
+        <div class="row justify-content-center mt-3">
+            <h2>단일 브랜드 총액 최저가</h2>
+            <p>
+            <h4>브랜드명</h4>
             <span th:text="${brandName}"></span><br>
-        </p>
-        <div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">카테고리</th>
-                    <th scope="col">가격</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="category : ${categories}">
-                    <td th:text="${category.name}"></td>
-                    <td th:text="${category.price.intValue()}"></td>
-                </tr>
-                </tbody>
-            </table>
+            </p>
+            <p>
+            <h4>총액</h4>
+                <p>
+                    <span th:text="${totalAmount.intValue()}"></span>
+                    <span>원</span>
+                </p>
+            </p>
+            <div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">카테고리</th>
+                        <th scope="col">가격</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.name}"></td>
+                        <td><span th:text="${category.price.intValue()}"></span>원</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 </div>

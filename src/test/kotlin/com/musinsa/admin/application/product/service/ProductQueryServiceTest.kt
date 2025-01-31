@@ -1,6 +1,6 @@
 package com.musinsa.admin.application.product.service
 
-import com.musinsa.admin.BaseJpaTest
+import com.musinsa.admin.application.base.BaseJpaTest
 import com.musinsa.admin.domain.entity.brand.BrandEntity
 import com.musinsa.admin.domain.entity.category.CategoryEntity
 import com.musinsa.admin.domain.entity.product.ProductEntity

@@ -1,7 +1,6 @@
 package com.musinsa.admin.application.product.service
 
 import com.musinsa.admin.application.product.dto.ProductDto
-import com.musinsa.admin.domain.entity.product.ProductEntity
 import com.musinsa.admin.domain.repository.brand.BrandRepository
 import com.musinsa.admin.domain.repository.category.CategoryRepository
 import com.musinsa.admin.domain.repository.product.ProductRepository

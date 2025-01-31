@@ -18,6 +18,13 @@
     <!-- Main Content -->
     <main class="container-fluid p-4">
         <h2>카테고리별 최저 가격</h2>
+        <p>
+            카테고리별 최저 가격을 조회합니다.
+        </p>
+        <div>
+            <h4>총액</h4>
+            <p><span th:text="${totalAmount.intValue()}"></span>원</p>
+        </div>
         <div>
             <table class="table">
                 <thead>

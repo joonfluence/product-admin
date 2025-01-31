@@ -7,7 +7,7 @@ import com.musinsa.admin.domain.entity.product.ProductEntity
 
 interface ProductRepositoryCustom {
     fun findByCategoryIdsOrderByPriceAsc(categoryIds: List<Long>): List<CategoryProductDto>
-    fun findLowestTotalPriceBrand(): BrandProductSumDto?
+    fun findTotalPriceBrands(): List<BrandProductSumDto>
     fun findProductsByBrandId(brandId: Long): List<CategoryProductDto>
     fun findProductByBrandIdAndCategoryIdAndName(brandId: Long, categoryId: Long, name: String): List<ProductEntity>
     fun findProductsWithCategoryAndBrand(): List<ProductWithCategoryAndBrandDto>

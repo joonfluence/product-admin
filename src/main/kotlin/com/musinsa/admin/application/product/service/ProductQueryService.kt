@@ -25,12 +25,13 @@ class ProductQueryService(
         val categories = categoryRepository.findAll()
         val categoryIds = categories.map { it.id }
 
-        val products = productRepository.findByCategoryIdsOrderByPriceAsc(categoryIds)
-        val map = products.groupBy { it.id }
+        val productCategories = productRepository.findByCategoryIdsOrderByPriceAsc(categoryIds)
+
+        val categoryMap = productCategories.groupBy { it.id }
         var totalAmount: BigDecimal = BigDecimal.ZERO
         val contents = mutableListOf<CategoryProductDto>()
 
-        map.forEach { (categoryId, products) ->
+        categoryMap.forEach { (categoryId, products) ->
             val product = products.first()
             totalAmount = totalAmount.add(product.price)
             contents.add(product)
@@ -41,7 +42,8 @@ class ProductQueryService(
     }
 
     fun getLowestPriceBrand(): BrandCategorySumDto {
-        val lowestBrand = productRepository.findLowestTotalPriceBrand()
+        val totalPriceBrands = productRepository.findTotalPriceBrands()
+        val lowestBrand = totalPriceBrands.minByOrNull { it.priceSum }
             ?: throw BadRequestException(ErrorCodes.BRAND_NOT_FOUND)
 
         val products = productRepository.findProductsByBrandId(lowestBrand.id)
@@ -63,10 +65,6 @@ class ProductQueryService(
             CategoryBrandDto(minPriceProduct.brandName, minPriceProduct.price),
             CategoryBrandDto(maxPriceProduct.brandName, maxPriceProduct.price)
         )
-    }
-
-    fun getProductsWithCategoryAndBrand(): List<ProductWithCategoryAndBrandDto> {
-        return productRepository.findProductsWithCategoryAndBrand()
     }
 
     fun getProductWithCategoryAndBrandById(productId: Long): ProductWithCategoryAndBrandDto {
